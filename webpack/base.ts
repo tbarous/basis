@@ -1,24 +1,33 @@
-import path from 'path'
+import { fromRoot } from '../utils/paths';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const entry = path.resolve(__dirname, '../')
+const entry = fromRoot('src/main.tsx');
+const output = { filename: 'bundle.js' };
+
+const htmlPlugin = new HtmlWebpackPlugin({
+  scriptLoading: 'blocking',
+  inject: 'body',
+  template: fromRoot('src/templates/index.ejs'),
+  filename: fromRoot('public/index.html'),
+  publicPath: 'http://localhost:3000',
+});
+
+const parsers = {
+  javascript: {
+    test: /\.(js|jsx|tsx|ts)$/,
+    exclude: /node_modules/,
+    loader: 'babel-loader',
+  },
+};
 
 export default {
-  entry: './src/main.js',
-  output: {
-    filename: 'my-first-webpack.bundle.js',
-  },
+  entry,
+  output,
   module: {
-    rules: [
-      {
-        test: /\.js*/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
-      },
-    ],
-  }
-}
+    rules: [parsers.javascript],
+  },
+  plugins: [htmlPlugin],
+  resolve: {
+    extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
+  },
+};
