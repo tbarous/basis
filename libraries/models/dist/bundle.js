@@ -1,0 +1,1 @@
+(()=>{"use strict";const s=new class{name;surname;constructor(s,e){this.name=s,this.surname=e}getFullName(){return this.name+" "+this.surname}setName(s){this.name=s}}("a","b");console.log(s)})();

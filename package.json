@@ -1,0 +1,14 @@
+{
+  "name": "basis",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "blueprint": "node ./scripts/blueprint.js"
+  },
+  "repository": "git@github.com:tbarous/basis.git",
+  "author": "Tasos Barous <tasosbarous@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "fs-extra": "^11.1.0"
+  }
+}
