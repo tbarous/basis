@@ -1,10 +1,10 @@
 {
   "name": "@baroce/models",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
-  "main": "dist/bundle.js",
+  "main": "dist/index.js",
   "files": [
-    "dist/bundle.js",
+    "dist/index.js",
     "README.md"
   ],
   "sideEffects": false,
