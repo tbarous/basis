@@ -1,6 +1,6 @@
 import merge from 'merge-deep';
 import base from './base';
-import { fromRoot } from '../utils/paths';
+import { fromRoot } from '@baroce/utils';
 
 const assets = {
   directory: fromRoot('dist'),
