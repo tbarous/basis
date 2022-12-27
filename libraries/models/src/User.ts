@@ -2,7 +2,7 @@ class User {
     name;
     surname;
   
-    constructor(name, surname) {
+    constructor(name: string, surname: string) {
       this.name = name;
       this.surname = surname;
     }
@@ -11,7 +11,7 @@ class User {
       return this.name + " " + this.surname;
     }
   
-    setName(name){
+    setName(name: string){
       this.name = name
     }
   }

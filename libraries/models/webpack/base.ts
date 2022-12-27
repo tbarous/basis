@@ -5,13 +5,14 @@ const output = { filename: 'bundle.js' };
 
 const parsers = {
   typescript: {
-    test: /\.(ts)$/,
+    test: /\.ts?$/,
+    use: 'ts-loader',
     exclude: /node_modules/,
-    loader: 'babel-loader',
   },
 };
 
 export default {
+  devtool: 'inline-source-map',
   entry,
   output,
   module: {

@@ -1,5 +1,5 @@
 import User from './User';
 
-const user = new User('a', 'b');
+type A = string | number;
 
-console.log(user);
+export { User, A };
