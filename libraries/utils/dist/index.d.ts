@@ -1,2 +1,2 @@
-declare const fromRoot: (location: string) => string;
-export { fromRoot };
+import { copyDir } from './files';
+export { copyDir };

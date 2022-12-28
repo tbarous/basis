@@ -1,6 +1,6 @@
 const fse = require('fs-extra');
 
-export async function copyDir(srcDir, destDir, config: { overwrite: boolean }) {
+export async function copyDir(srcDir: string, destDir: string, config: { overwrite: boolean }) {
   try {
     await fse.copySync(srcDir, destDir, config);
 

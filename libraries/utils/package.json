@@ -1,6 +1,6 @@
 {
   "name": "@tbarous/utils",
-  "version": "1.0.12",
+  "version": "1.0.16",
   "license": "MIT",
   "main": "dist",
   "files": [
@@ -9,7 +9,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "fire": "node dist/bundle.js",
+    "serve": "node dist/bundle.js",
     "build": "rollup -c --bundleConfigAsCjs"
   },
   "devDependencies": {

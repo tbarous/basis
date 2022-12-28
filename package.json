@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "blueprint": "node ./scripts/blueprint.js"
+    "blueprint": "ts-node ./scripts/blueprint.ts"
   },
   "repository": "git@github.com:tbarous/basis.git",
   "author": "Tasos Barous <tasosbarous@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^18.11.18",
     "eslint": "^8.30.0",
     "fs-extra": "^11.1.0",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@tbarous/utils": "1.0.16",
+    "ts-node": "^10.9.1"
   }
 }

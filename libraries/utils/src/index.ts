@@ -1,7 +1,3 @@
-import path from 'path'
+import { copyDir } from './files';
 
-const root = path.resolve(__dirname, '../')
-
-const fromRoot = (location: string) => path.resolve(root, location)
-
-export { fromRoot }
+export { copyDir };
