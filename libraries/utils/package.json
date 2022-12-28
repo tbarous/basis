@@ -1,6 +1,6 @@
 {
-  "name": "@baroce/utils",
-  "version": "1.0.8",
+  "name": "@tbarous/utils",
+  "version": "1.0.12",
   "license": "MIT",
   "main": "dist",
   "files": [
@@ -22,5 +22,8 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.4"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/tbarous"
   }
 }
