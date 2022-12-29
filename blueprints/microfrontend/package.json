@@ -1,8 +1,15 @@
 {
-  "name": "@baroce/react",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@tbarous/microfrontend",
+  "version": "0.0.1",
   "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/tbarous"
+  },
   "scripts": {
     "build": "webpack --config webpack/prod.ts",
     "dev": "webpack serve --config webpack/dev.ts"

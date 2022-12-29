@@ -1,4 +1,4 @@
-# A react starter.
+# A microfrontend starter.
 
 Consists of:
 

@@ -15,7 +15,7 @@ export const plugins: any = [
 ];
 
 export default {
-  output: { filename: 'bundle.js' },
+  output: { filename: 'index.js' },
   module: {
     rules: [
       {
