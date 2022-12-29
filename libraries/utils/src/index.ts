@@ -1,3 +1,1 @@
-import { copyDir } from './files';
-
-export { copyDir };
+export * from './files';

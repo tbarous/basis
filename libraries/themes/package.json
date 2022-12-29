@@ -1,6 +1,6 @@
 {
-  "name": "@tbarous/utils",
-  "version": "1.0.18",
+  "name": "@tbarous/themes",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "dist",
   "files": [
@@ -25,5 +25,8 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/tbarous"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.4.5"
   }
 }
