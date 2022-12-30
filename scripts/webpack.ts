@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 import { fromRoot } from './common';
 
 export const entries = (path: string) => ({
@@ -33,15 +34,15 @@ export const resolves = {
   ts: { extensions: ['*', '.js', '.jsx', '.tsx', '.ts'] },
 };
 
-// const plugins = {
-//   htmlPlugin: new HtmlWebpackPlugin({
-//     scriptLoading: 'blocking',
-//     inject: 'body',
-//     template: fromRoot('templates/index.ejs'),
-//     filename: fromRoot('public/index.html'),
-//     publicPath: 'http://localhost:3000',
-//   }),
-// };
+export const plugins = {
+  htmlPlugin: new HtmlWebpackPlugin({
+    scriptLoading: 'blocking',
+    inject: 'body',
+    template: fromRoot('templates/index.ejs'),
+    filename: fromRoot('public/index.html'),
+    publicPath: 'http://localhost:3000',
+  }),
+};
 
 export const externals = {
   externals: {

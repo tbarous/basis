@@ -23,7 +23,7 @@ export async function constructLibrary(name: string) {
   await constructLibraryTsConfig(path);
   await installDeps(path);
   await buildDeps(path);
-  //   await publish(path);
+  await publish(path);
 }
 
 export async function constructWebpackLibrary(path: string, name: string) {

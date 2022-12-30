@@ -1,4 +1,0 @@
-{
-  "extends": "../../common/frontend.tsconfig.json",
-  "files": ["./src/index.tsx", "./src/demo.tsx"]
-}

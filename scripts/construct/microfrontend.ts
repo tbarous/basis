@@ -1,3 +1,4 @@
+import { plugins } from './../../microfrontends/cart/webpack/base';
 import * as Webpack from '../webpack';
 import * as Package from '../package';
 import { fromRoot, npmrcPath } from './../common';
@@ -23,14 +24,15 @@ export async function constructLibrary(name: string) {
   await constructLibraryTsConfig(path);
   await installDeps(path);
   await buildDeps(path);
-  //   await publish(path);
+  await publish(path);
 }
 
 export async function constructWebpackLibrary(path: string, name: string) {
   const base = {
-    entry: Webpack.entries(path).indexTypescript,
+    entry: Webpack.entries(path).indexReact,
     output: Webpack.outputs.lib(name),
     module: Webpack.modules.ts,
+    plugins: [Webpack.plugins.htmlPlugin],
     resolve: Webpack.resolves.ts,
   };
 
@@ -59,8 +61,18 @@ export async function constructLibraryPackageJson(path: string, name: string) {
     scripts: {
       ...Package.scripts.build,
     },
-    dependencies: Package.dependencies.frontend,
-    devDependencies: Package.devDependencies,
+    dependencies: {
+      ...Package.dependencies.react,
+      ...Package.dependencies.styledComponents,
+    },
+    devDependencies: {
+      ...Package.devDependencies.babelReact,
+      ...Package.devDependencies.typescript,
+      ...Package.devDependencies.reactTypes,
+      ...Package.devDependencies.styledComponentsTypes,
+      ...Package.devDependencies.nodeTypes,
+      ...Package.devDependencies.webpackReact,
+    },
   };
 
   await writeJSONToFile(`${path}\\package.json`, base);
