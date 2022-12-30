@@ -16,7 +16,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@tbarous/utils": "1.0.18",
+    "@tbarous/utils": "1.0.19",
     "ts-node": "^10.9.1"
   }
 }

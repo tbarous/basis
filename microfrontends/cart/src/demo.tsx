@@ -10,4 +10,4 @@ const render = (target: Element | null) => {
   root.render(<App />);
 };
 
-render(document.getElementById('app'));
+render(document.getElementById('root'));

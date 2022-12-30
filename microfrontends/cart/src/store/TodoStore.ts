@@ -3,7 +3,7 @@ import Todo from '../models/Todo';
 import RootStore from './RootStore';
 
 class TodoStore {
-  todos = [];
+  todos: Todo[] = [];
   loading = false;
   rootStore;
 

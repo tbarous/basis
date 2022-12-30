@@ -1,9 +1,9 @@
 import RootStore from '../store/RootStore';
 import React, { createContext } from 'react';
 
-export const DataContext = createContext<RootStore>();
+export const DataContext = createContext<any>({});
 
-const DataProvider = ({ children }) => {
+const DataProvider = ({ children }: any) => {
   return (
     <DataContext.Provider value={new RootStore()}>
       {children}

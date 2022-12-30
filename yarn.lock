@@ -82,10 +82,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@tbarous/utils@1.0.18":
-  version "1.0.18"
-  resolved "https://npm.pkg.github.com/download/@tbarous/utils/1.0.18/84421c5f6abb1a6818afd5c1a518830549e32160#84421c5f6abb1a6818afd5c1a518830549e32160"
-  integrity sha512-eAgBHPwwKfwc4URR4S7CqXngxC4EXoXnQjZgTkpYaCKUNblyn58ycFeWXJguWrWmWiQsWU5K7PNQj5RyVyuGZA==
+"@tbarous/utils@1.0.19":
+  version "1.0.19"
+  resolved "https://npm.pkg.github.com/download/@tbarous/utils/1.0.19/d2d0db79ce52313346e322fe3695057dc3c4b912#d2d0db79ce52313346e322fe3695057dc3c4b912"
+  integrity sha512-GJyAnp6PXPq3oOyaETe3YCPN+Akk8z5gxk91HvkD8PdxaKygr3ffmqQxjpjYxhxDzNAisJ7ipbV6XqVzQuMW2A==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.9"

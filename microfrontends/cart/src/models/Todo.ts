@@ -1,13 +1,15 @@
+import { makeAutoObservable, reaction } from 'mobx';
+
 class Todo {
-  id = null; // Unique id of this Todo, immutable.
+  id: string | null = null; // Unique id of this Todo, immutable.
   completed = false;
   task = '';
-  author = null; // Reference to an Author object (from the authorStore).
-  store = null;
+  author: any = null; // Reference to an Author object (from the authorStore).
+  store: any = null;
   autoSave = true; // Indicator for submitting changes in this Todo to the server.
-  saveHandler = null; // Disposer of the side effect auto-saving this Todo (dispose).
+  saveHandler: any = null; // Disposer of the side effect auto-saving this Todo (dispose).
 
-  constructor(store, id = uuid.v4()) {
+  constructor(store: any, id = 'uuid.v4()') {
     makeAutoObservable(this, {
       id: false,
       store: false,
@@ -45,7 +47,7 @@ class Todo {
   }
 
   // Update this Todo with information from the server.
-  updateFromJson(json) {
+  updateFromJson(json: any) {
     this.autoSave = false; // Prevent sending of our changes back to the server.
     this.completed = json.completed;
     this.task = json.task;
@@ -59,4 +61,4 @@ class Todo {
   }
 }
 
-export default Todo
+export default Todo;

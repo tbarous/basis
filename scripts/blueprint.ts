@@ -13,8 +13,8 @@ function blueprint() {
 
   if (!recipes.includes(recipe) || !path) return;
 
-  moveDir(fromRoot(`blueprints\\${recipe}`), fromRoot(path), {
-    overwrite: false,
+  copyDir(fromRoot(`blueprints\\${recipe}`), fromRoot(path), {
+    overwrite: true,
     filter: (src, dest) => src !== 'node_modules',
   });
 }
