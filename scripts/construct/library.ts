@@ -58,9 +58,16 @@ export async function constructLibraryPackageJson(path: string, name: string) {
     publishConfig: Package.publishConfig,
     scripts: {
       ...Package.scripts.build,
+      ...Package.scripts.unitTest,
     },
-    dependencies: Package.dependencies.frontend,
-    devDependencies: Package.devDependencies,
+    dependencies: {},
+    devDependencies: {
+      ...Package.devDependencies.babelEssentials,
+      ...Package.devDependencies.typescript,
+      ...Package.devDependencies.nodeTypes,
+      ...Package.devDependencies.webpackEssentials,
+      ...Package.devDependencies.jest,
+    },
   };
 
   await writeJSONToFile(`${path}\\package.json`, base);
