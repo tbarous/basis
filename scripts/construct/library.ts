@@ -13,7 +13,7 @@ import { buildDeps, installDeps, publish } from '../commands';
 import { tsConfigs } from '../tsconfig';
 
 export async function constructLibrary(name: string) {
-  const path = fromRoot(`libraries\\${name}`);
+  const path = fromRoot(`products\\libraries\\${name}`);
 
   await removeDir(path);
   await copyDir(libraryDir, path);

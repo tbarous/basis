@@ -1,7 +1,6 @@
-import { plugins } from './../../microfrontends/cart/webpack/base';
 import * as Webpack from '../webpack';
 import * as Package from '../package';
-import { fromRoot, npmrcPath } from './../common';
+import { fromRoot, microfrontendDir, npmrcPath } from './../common';
 import {
   copyDir,
   moveDir,
@@ -9,19 +8,18 @@ import {
   writeToFile,
   writeJSONToFile,
 } from '@tbarous/utils';
-import { libraryDir } from '../common';
 import { buildDeps, installDeps, publish } from '../commands';
 import { tsConfigs } from '../tsconfig';
 
-export async function constructLibrary(name: string) {
-  const path = fromRoot(`libraries\\${name}`);
+export async function constructMicrofrontend(name: string) {
+  const path = fromRoot(`products\\microfrontends\\${name}`);
 
   await removeDir(path);
-  await copyDir(libraryDir, path);
+  await copyDir(microfrontendDir, path);
   await copyDir(npmrcPath, `${path}/.npmrc`);
   await constructWebpackLibrary(path, name);
-  await constructLibraryPackageJson(path, name);
-  await constructLibraryTsConfig(path);
+  await constructMicrofrontendPackageJson(path, name);
+  await constructMicrofrontendTsConfig(path);
   await installDeps(path);
   await buildDeps(path);
   await publish(path);
@@ -32,12 +30,12 @@ export async function constructWebpackLibrary(path: string, name: string) {
     entry: Webpack.entries(path).indexReact,
     output: Webpack.outputs.lib(name),
     module: Webpack.modules.ts,
-    plugins: [Webpack.plugins.htmlPlugin],
+    plugins: [Webpack.plugins(path).htmlPlugin],
     resolve: Webpack.resolves.ts,
   };
 
   const prod = { ...base, mode: 'production' };
-  const dev = { ...base, mode: 'development' };
+  const dev = { ...base, mode: 'development', ...Webpack.devServer(path) };
 
   await writeToFile(
     `${path}\\webpack\\prod.webpack.config.ts`,
@@ -50,7 +48,10 @@ export async function constructWebpackLibrary(path: string, name: string) {
   );
 }
 
-export async function constructLibraryPackageJson(path: string, name: string) {
+export async function constructMicrofrontendPackageJson(
+  path: string,
+  name: string
+) {
   const base = {
     name: `@tbarous/${name}`,
     version: '0.0.1',
@@ -78,6 +79,6 @@ export async function constructLibraryPackageJson(path: string, name: string) {
   await writeJSONToFile(`${path}\\package.json`, base);
 }
 
-export async function constructLibraryTsConfig(path: string) {
+export async function constructMicrofrontendTsConfig(path: string) {
   await writeJSONToFile(`${path}\\tsconfig.json`, tsConfigs.frontend);
 }

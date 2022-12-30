@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-import { fromRoot } from './common';
 
 export const entries = (path: string) => ({
   indexTypescript: `${path}/src/index.ts`,
@@ -34,15 +33,15 @@ export const resolves = {
   ts: { extensions: ['*', '.js', '.jsx', '.tsx', '.ts'] },
 };
 
-export const plugins = {
+export const plugins = (path: string) => ({
   htmlPlugin: new HtmlWebpackPlugin({
     scriptLoading: 'blocking',
     inject: 'body',
-    template: fromRoot('templates/index.ejs'),
-    filename: fromRoot('public/index.html'),
+    template: `${path}/src/index.ejs`,
+    filename: `${path}/public/index.html`,
     publicPath: 'http://localhost:3000',
   }),
-};
+});
 
 export const externals = {
   externals: {
@@ -55,15 +54,15 @@ export const externals = {
   },
 };
 
-const devServer = {
+export const devServer = (path: string) => ({
   static: [
     {
-      directory: fromRoot('dist'),
+      directory: `${path}/dist`,
       publicPath: '/dist',
       watch: true,
     },
     {
-      directory: fromRoot('public'),
+      directory: `${path}/public`,
       watch: true,
     },
   ],
@@ -71,7 +70,7 @@ const devServer = {
   port: 3000,
   hot: true,
   open: true,
-};
+});
 
 const modes = {
   development: 'development',

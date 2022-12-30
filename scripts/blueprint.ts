@@ -1,4 +1,5 @@
 import { constructLibrary } from './construct/library';
+import { constructMicrofrontend } from './construct/microfrontend';
 
 const [recipe, name]: string[] = process.argv.slice(2, 4);
 const recipes = ['microfrontend', 'microservices', 'react', 'library', 'app'];
@@ -8,6 +9,7 @@ async function blueprint() {
 
   const mapping: Record<string, (name: string) => Promise<void>> = {
     library: constructLibrary,
+    microfrontend: constructMicrofrontend
   };
 
   await mapping[recipe](name);
