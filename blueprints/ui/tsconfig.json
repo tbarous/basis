@@ -1,4 +1,0 @@
-{
-  "extends": "../../common/rollupReact.tsconfig.json",
-  "files": ["./src/index.tsx"]
-}

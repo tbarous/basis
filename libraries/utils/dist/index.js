@@ -61,10 +61,13 @@ function copyDir(srcDir, destDir, config) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, fse.copySync(srcDir, destDir, config)];
+                    return [4 /*yield*/, fse.copySync(srcDir, destDir, {
+                            overwrite: true,
+                            filter: function () { return true; },
+                        })];
                 case 1:
                     _a.sent();
-                    console.log('success!');
+                    console.log("Copied ".concat(srcDir, " to ").concat(destDir));
                     return [3 /*break*/, 3];
                 case 2:
                     err_1 = _a.sent();
@@ -75,17 +78,17 @@ function copyDir(srcDir, destDir, config) {
         });
     });
 }
-function moveDir(srcDir, destDir, config) {
+function removeDir(path) {
     return __awaiter(this, void 0, void 0, function () {
         var err_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, fse.moveSync(srcDir, destDir, config)];
+                    return [4 /*yield*/, fse.removeSync(path)];
                 case 1:
                     _a.sent();
-                    console.log('success!');
+                    console.log("Deleted ".concat(path));
                     return [3 /*break*/, 3];
                 case 2:
                     err_2 = _a.sent();
@@ -96,6 +99,94 @@ function moveDir(srcDir, destDir, config) {
         });
     });
 }
+function writeJSONToFile(path, object) {
+    return __awaiter(this, void 0, void 0, function () {
+        var err_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fse.outputJsonSync(path, object, { spaces: '  ' })];
+                case 1:
+                    _a.sent();
+                    console.log("Created JSON file in ".concat(path));
+                    return [3 /*break*/, 3];
+                case 2:
+                    err_3 = _a.sent();
+                    console.error(err_3);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function writeToFile(path, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var err_4;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fse.outputFileSync(path, data)];
+                case 1:
+                    _a.sent();
+                    console.log("Created file in ".concat(path));
+                    return [3 /*break*/, 3];
+                case 2:
+                    err_4 = _a.sent();
+                    console.error(err_4);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function makeDir(path) {
+    return __awaiter(this, void 0, void 0, function () {
+        var err_5;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fse.ensureDir(path)];
+                case 1:
+                    _a.sent();
+                    console.log("Created directory in ".concat(path));
+                    return [3 /*break*/, 3];
+                case 2:
+                    err_5 = _a.sent();
+                    console.error(err_5);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function moveDir(srcDir, destDir, config) {
+    return __awaiter(this, void 0, void 0, function () {
+        var err_6;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, fse.moveSync(srcDir, destDir, config)];
+                case 1:
+                    _a.sent();
+                    console.log("Moved directory ".concat(srcDir, " to ").concat(destDir));
+                    return [3 /*break*/, 3];
+                case 2:
+                    err_6 = _a.sent();
+                    console.error(err_6);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
 
 exports.copyDir = copyDir;
+exports.makeDir = makeDir;
 exports.moveDir = moveDir;
+exports.removeDir = removeDir;
+exports.writeJSONToFile = writeJSONToFile;
+exports.writeToFile = writeToFile;

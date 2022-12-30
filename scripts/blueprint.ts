@@ -1,22 +1,16 @@
-import { copyDir, moveDir } from '@tbarous/utils';
-import path from 'path';
+import { constructLibrary } from './construct/library';
 
-const root = path.resolve(__dirname, '../');
-const fromRoot = (location: string) => path.resolve(root, location);
+const [recipe, name]: string[] = process.argv.slice(2, 4);
+const recipes = ['microfrontend', 'microservices', 'react', 'library', 'app'];
 
-// Initializes a react project in a specified path
-// e.g. yarn blueprint react packages/ui
-function blueprint() {
-  const recipes = ['microfrontend', 'microservices', 'react', 'library', 'app'];
+async function blueprint() {
+  if (!recipes.includes(recipe) || !name) return;
 
-  const [recipe, path] = process.argv.slice(2, 4);
+  const mapping: Record<string, (name: string) => Promise<void>> = {
+    library: constructLibrary,
+  };
 
-  if (!recipes.includes(recipe) || !path) return;
-
-  copyDir(fromRoot(`blueprints\\${recipe}`), fromRoot(path), {
-    overwrite: true,
-    filter: (src, dest) => src !== 'node_modules',
-  });
+  await mapping[recipe](name);
 }
 
 blueprint();
