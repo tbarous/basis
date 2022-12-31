@@ -1,6 +1,15 @@
+import { presets } from './../babel';
 import * as Webpack from '../webpack';
 import * as Package from '../package';
-import { fromRoot, microfrontendDir, npmrcPath } from './../common';
+import {
+  microfrontendDir,
+  npmrcPath,
+  readmePath,
+  babelRcPath,
+  fromRoot,
+  jsTsReactRegex,
+  nodeModulesRegex,
+} from './../common';
 import {
   copyDir,
   moveDir,
@@ -16,13 +25,16 @@ export async function constructMicrofrontend(name: string) {
 
   await removeDir(path);
   await copyDir(microfrontendDir, path);
-  await copyDir(npmrcPath, `${path}/.npmrc`);
+  await constructBabelRc(path);
+  await constructReadme(path, name);
+  await constructProjectJson(path, name);
+  await constructNpmrc(path);
   await constructWebpackLibrary(path, name);
   await constructMicrofrontendPackageJson(path, name);
   await constructMicrofrontendTsConfig(path);
-  await installDeps(path);
-  await buildDeps(path);
-  await publish(path);
+  // await installDeps(path);
+  // await buildDeps(path);
+  // await publish(path);
 }
 
 export async function constructWebpackLibrary(path: string, name: string) {
@@ -30,7 +42,7 @@ export async function constructWebpackLibrary(path: string, name: string) {
     entry: Webpack.entries(path).indexReact,
     output: Webpack.outputs.lib(name),
     module: Webpack.modules.ts,
-    plugins: [Webpack.plugins(path).htmlPlugin],
+    // plugins: [Webpack.plugins(path).htmlPlugin],
     resolve: Webpack.resolves.ts,
   };
 
@@ -39,13 +51,42 @@ export async function constructWebpackLibrary(path: string, name: string) {
 
   await writeToFile(
     `${path}\\webpack\\prod.webpack.config.ts`,
-    `export default ${JSON.stringify(prod)}`
+    `export default ${JSON.stringify(prod)
+      .replace(`"${jsTsReactRegex}"`, jsTsReactRegex)
+      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)}`
   );
 
   await writeToFile(
     `${path}\\webpack\\dev.webpack.config.ts`,
-    `export default ${JSON.stringify(dev)}`
+    `export default ${JSON.stringify(dev)
+      .replace(`"${jsTsReactRegex}"`, `${jsTsReactRegex}`)
+      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)}}`
   );
+}
+
+export async function constructNpmrc(path: string) {
+  await writeToFile(
+    `${path}\\.npmrc`,
+    `#!/bin/bash
+//npm.pkg.github.com/:_authToken=\${NPM_TOKEN}
+@tbarous:registry=https://npm.pkg.github.com`
+  );
+}
+
+export async function constructBabelRc(path: string) {
+  const babelrc = {
+    presets: [presets.react, presets.typescript, presets.env],
+  };
+
+  await writeJSONToFile(`${path}\\.babelrc`, babelrc);
+}
+
+export async function constructProjectJson(path: string, name: string) {
+  await writeJSONToFile(`${path}\\.project.json`, { name });
+}
+
+export async function constructReadme(path: string, name: string) {
+  await writeToFile(`${path}\\README.md`, `# ${name}`);
 }
 
 export async function constructMicrofrontendPackageJson(
@@ -61,10 +102,13 @@ export async function constructMicrofrontendPackageJson(
     publishConfig: Package.publishConfig,
     scripts: {
       ...Package.scripts.build,
+      ...Package.scripts.dev,
+      ...Package.scripts.unitTest,
     },
     dependencies: {
       ...Package.dependencies.react,
       ...Package.dependencies.styledComponents,
+      ...Package.dependencies.mobx,
     },
     devDependencies: {
       ...Package.devDependencies.babelReact,

@@ -4,7 +4,7 @@ export const licenses = { private: 'UNLICENSED' };
 
 export const scripts = {
   build: { build: 'webpack --config webpack/prod.webpack.config.ts' },
-  dev: 'webpack serve --config webpack/dev.ts',
+  dev: { dev: 'webpack serve --config webpack/dev.ts' },
   unitTest: { 'test:unit': 'jest' },
 };
 
@@ -39,6 +39,11 @@ export const dependencies = {
 
   styledComponents: {
     'styled-components': '^5.3.6',
+  },
+
+  mobx: {
+    mobx: '^6.7.0',
+    'mobx-react': '^7.6.0',
   },
 };
 

@@ -1,3 +1,5 @@
+import { jsTsReactRegex, nodeModulesRegex } from './common';
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 export const entries = (path: string) => ({
@@ -21,8 +23,8 @@ export const modules = {
   ts: {
     rules: [
       {
-        test: '/.(js|jsx|tsx|ts)$/',
-        exclude: '/node_modules/',
+        test: jsTsReactRegex,
+        exclude: nodeModulesRegex,
         loader: 'babel-loader',
       },
     ],
