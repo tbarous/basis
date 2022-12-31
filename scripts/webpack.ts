@@ -11,6 +11,7 @@ class Webpack {
   resolve: any;
   externals: any;
   devServer = {};
+  stringConfig = `export default ${this.toString()}`;
 
   static jsTsReactRegex = '/.(js|jsx|tsx|ts)$/';
   static nodeModulesRegex = '/node_modules/';
@@ -122,14 +123,6 @@ class Webpack {
     this.stringConfig = `${before}${this.stringConfig}`;
   }
 
-  get stringConfig() {
-    return `export default ${this.toString()}`;
-  }
-
-  set stringConfig(stringConfig: string) {
-    this.stringConfig = stringConfig;
-  }
-
   cleanupStringConfig() {
     this.stringConfig = this.stringConfig
       .replace(`"${Webpack.jsTsReactRegex}"`, Webpack.jsTsReactRegex)
@@ -139,6 +132,7 @@ class Webpack {
   }
 
   async export(path: string) {
+    this.cleanupStringConfig();
     await writeToFile(path, this.stringConfig);
   }
 }

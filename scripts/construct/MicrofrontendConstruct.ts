@@ -8,20 +8,18 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
   baseProductPath = 'products/microfrontends';
 
   async createWebpack(): Promise<void> {
-    this.prodWebpack.setReactEntry();
-    this.prodWebpack.setLibraryOutput();
-    this.prodWebpack.setTsModulesParsing();
-    this.prodWebpack.addHtmlWebpackPlugin();
-    this.prodWebpack.setTsResolves();
-    this.prodWebpack.setProduction();
-    this.prodWebpack.importHtmlWebpackPlugin();
-    this.prodWebpack.cleanupStringConfig();
-    await this.createProdWebpack();
-
-    config.setDevelopment();
-    config.addDevServer();
-    config.setReactDemoEntry();
-    await this.createDevWebpack();
+    this.webpacks.prod.setReactEntry();
+    this.webpacks.prod.setLibraryOutput();
+    this.webpacks.prod.setTsModulesParsing();
+    this.webpacks.prod.addHtmlWebpackPlugin();
+    this.webpacks.prod.setTsResolves();
+    this.webpacks.prod.setProduction();
+    this.webpacks.prod.importHtmlWebpackPlugin();
+    await this.exportWebpackProd();
+    this.webpacks.dev.setDevelopment();
+    this.webpacks.dev.addDevServer();
+    this.webpacks.dev.setReactDemoEntry();
+    await this.exportWebpackDev();
   }
 
   async createBabelrc() {
@@ -46,7 +44,6 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
     this.tsconfiguration.setOutDirDist();
     this.tsconfiguration.setJsxReact();
     this.tsconfiguration.setTsNodeCommonJsModule();
-
     await this.exportTsconfig();
   }
 

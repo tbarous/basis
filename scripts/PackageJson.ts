@@ -1,115 +1,119 @@
 class PackageJson {
   name: string;
 
+  packageName: string;
+  version: string;
+  license: string;
+  scripts: any = {};
+  main: string;
+  files: any;
+  publishConfig: any;
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
+
   constructor(name: string) {
     this.name = name;
   }
 
-  get names() {
-    return {
-      github: `@tbarous/${this.name}`,
-    };
+  setGithubName() {
+    this.packageName = `@tbarous/${this.name}`;
   }
 
-  static versions = {
-    start: '0.1.0',
-  };
+  setStartingVersion() {
+    this.version = '0.1.0';
+  }
 
-  static licenses = {
-    private: { private: 'UNLICENSED' },
-  };
+  setPrivateLicense() {
+    this.license = 'UNLICENSED';
+  }
 
-  static scripts = {
-    build: { build: 'webpack --config webpack/prod.webpack.config.ts' },
-    dev: { dev: 'webpack serve --config webpack/dev.webpack.config.ts' },
-    unitTest: { 'test:unit': 'jest' },
-  };
+  addBuildScript() {
+    this.scripts['build'] = 'webpack --config webpack/prod.webpack.config.ts';
+  }
+  addDevScript() {
+    this.scripts['dev'] =
+      'webpack serve --config webpack/dev.webpack.config.ts';
+  }
+  addUnitTestScript() {
+    this.scripts['unit'] = 'jest';
+  }
 
-  static mains = { distIndex: 'dist/index.js' };
-  static files = { essential: ['dist', 'README.md'] };
+  setIndexMain() {
+    this.main = 'dist/index.js';
+  }
 
-  static publishConfigs = {
-    github: {
-      registry: 'https://npm.pkg.github.com/tbarous',
-    },
-  };
+  setCommonFiles() {
+    this.files = ['dist', 'README.md'];
+  }
 
-  static babelEssentialDeps = {
-    'babel-loader': '^9.1.0',
-    '@babel/cli': '^7.20.7',
-    '@babel/core': '^7.20.7',
-    '@babel/preset-env': '^7.20.2',
-    '@babel/preset-typescript': '^7.18.6',
-  };
+  setGithubRegistry() {
+    this.publishConfig = { registry: 'https://npm.pkg.github.com/tbarous' };
+  }
 
-  static webpackEssentialDeps = {
-    webpack: '^5.75.0',
-    'webpack-cli': '^5.0.1',
-    'webpack-dev-server': '^4.11.1',
-    '@types/webpack': '^5.28.0',
-  };
+  addReact() {
+    this.dependencies['react'] = '^18.2.0';
+    this.devDependencies['@types/react'] = '^18.0.26';
+  }
 
-  static dependencies = {
-    react: {
-      react: '^18.2.0',
-      'react-dom': '^18.2.0',
-    },
+  addReactDom() {
+    this.dependencies['react-dom'] = '^18.2.0';
+    this.devDependencies['@types/react-dom'] = '^18.0.10';
+  }
 
-    styledComponents: {
-      'styled-components': '^5.3.6',
-    },
+  addStyledComponents() {
+    this.dependencies['styled-components'] = '^5.3.6';
+    this.devDependencies['@types/styled-components'] = '^5.1.26';
+  }
 
-    mobx: {
-      mobx: '^6.7.0',
-      'mobx-react': '^7.6.0',
-    },
-  };
+  addMobx() {
+    this.dependencies['mobx'] = '^6.7.0';
+    this.dependencies['mobx-react'] = '^7.6.0';
+  }
 
-  static devDependencies = {
-    typescript: {
-      typescript: '^4.9.4',
-      '@types/node': '^18.11.17',
-    },
+  addTypescript() {
+    this.devDependencies['typescript'] = '^4.9.4';
+    this.devDependencies['@types/node'] = '^18.11.17';
+  }
 
-    reactTypes: {
-      '@types/react': '^18.0.26',
-      '@types/react-dom': '^18.0.10',
-    },
+  addJest() {
+    this.devDependencies['jest'] = '^29.3.1';
+    this.devDependencies['@types/jest'] = '^29.2.4';
+  }
 
-    babelEssentials: PackageJson.babelEssentialDeps,
+  addPrettier() {
+    this.devDependencies['prettier'] = '^2.8.1';
+  }
 
-    babelReact: {
-      ...PackageJson.babelEssentialDeps,
-      '@babel/preset-react': '^7.18.6',
-    },
+  addEssentialBabel() {
+    this.devDependencies['babel-loader'] = '^9.1.0';
+    this.devDependencies['@babel/cli'] = '^7.20.7';
+    this.devDependencies['@babel/core'] = '^7.20.7';
+    this.devDependencies['@babel/preset-env'] = '^7.20.2';
+    this.devDependencies['@babel/preset-typescript'] = '^7.18.6';
+  }
 
-    styledComponentsTypes: {
-      '@types/styled-components': '^5.1.26',
-    },
+  addReactBabel() {
+    this.addEssentialBabel();
+    this.devDependencies['@babel/preset-react'] = '^7.18.6';
+  }
 
-    nodeTypes: {
-      '@types/node': '^18.11.17',
-      'ts-node': '^10.9.1',
-    },
+  addEssentialWebpack() {
+    this.devDependencies['webpack'] = '^5.75.0';
+    this.devDependencies['webpack-cli'] = '^5.0.1';
+    this.devDependencies['@types/webpack'] = '^5.28.0';
+  }
 
-    webpackEssentials: PackageJson.webpackEssentialDeps,
+  addReactWebpack() {
+    this.addEssentialWebpack();
+    this.devDependencies['html-webpack-plugin'] = '^5.5.0';
+    this.devDependencies['webpack-dev-server'] = '^4.11.1';
+    this.devDependencies['@types/webpack-dev-server'] = '^4.7.2';
+  }
 
-    webpackReact: {
-      ...PackageJson.webpackEssentialDeps,
-      'webpack-dev-server': '^4.11.1',
-      '@types/webpack-dev-server': '^4.7.2',
-      'html-webpack-plugin': '^5.5.0',
-    },
-
-    jest: {
-      jest: '^29.3.1',
-      '@types/jest': '^29.2.4',
-    },
-
-    prettier: {
-      prettier: '^2.8.1',
-    },
-  };
+  addNodeTypes() {
+    this.devDependencies['@types/node'] = '^18.11.17';
+    this.devDependencies['ts-node'] = '^10.9.1';
+  }
 }
 
 export default PackageJson;

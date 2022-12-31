@@ -15,8 +15,6 @@ import Tsconfig from '../tsconfig';
 
 export interface IConstruct {
   cleanup: () => void;
-  copyBlueprint: () => void;
-  createBabelrc: () => void;
 }
 
 abstract class Construct implements IConstruct {
