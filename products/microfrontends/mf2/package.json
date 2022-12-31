@@ -1,8 +1,19 @@
 {
+  "name": "@tbarous/mf2",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
   "scripts": {
     "build": "webpack --config webpack/prod.webpack.config.ts",
     "dev": "webpack serve --config webpack/dev.webpack.config.ts",
     "unit": "jest"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/tbarous"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -28,17 +39,5 @@
     "html-webpack-plugin": "^5.5.0",
     "webpack-dev-server": "^4.11.1",
     "@types/webpack-dev-server": "^4.7.2"
-  },
-  "name": "mf2",
-  "packageName": "@tbarous/mf2",
-  "version": "0.1.0",
-  "main": "dist/index.js",
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "license": "UNLICENSED",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/tbarous"
   }
 }

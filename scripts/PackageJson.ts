@@ -136,7 +136,7 @@ class PackageJson {
   }
 
   async export(path: string) {
-    await writeJSONToFile(path, this);
+    await writeJSONToFile(path, this.config);
   }
 }
 

@@ -77,6 +77,7 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
     await this.exportNpmrc();
     await this.createWebpack();
     await this.createTsconfig();
+    await this.installDeps();
     await this.build();
   }
 }

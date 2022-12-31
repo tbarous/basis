@@ -124,7 +124,7 @@ abstract class Construct implements IConstruct {
 
   // Install dependencies on product
   async installDeps() {
-    this.runCommand(
+    await this.runCommand(
       `cd ${this.paths.product} && yarn`,
       'Installing dependencies...'
     );
@@ -132,12 +132,15 @@ abstract class Construct implements IConstruct {
 
   // Build product
   async build() {
-    this.runCommand(`cd ${this.paths.product} && yarn build`, 'Building...');
+    await this.runCommand(
+      `cd ${this.paths.product} && yarn build`,
+      'Building...'
+    );
   }
 
   // Bump product's version
   async bumpVersion() {
-    this.runCommand(
+    await this.runCommand(
       `cd ${this.paths.product} && npm version minor`,
       'Bumping version...'
     );
@@ -145,7 +148,7 @@ abstract class Construct implements IConstruct {
 
   // Publish product
   async publish() {
-    this.runCommand(
+    await this.runCommand(
       `cd ${this.paths.product} && npm publish`,
       'Publishing package...'
     );
@@ -153,6 +156,8 @@ abstract class Construct implements IConstruct {
 
   // Run command
   async runCommand(command: string, message: string) {
+    console.log(message);
+
     try {
       const { stdout, stderr } = await run(command);
 

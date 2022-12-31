@@ -81,7 +81,7 @@ class Webpack {
   }
 
   setTsResolves() {
-    this.config.resolve = { extensions: ['.tsx', '.ts'] };
+    this.config.resolve = { extensions: ['*', '.js', '.jsx', '.tsx', '.ts'] };
   }
 
   setProduction() {
