@@ -28,22 +28,25 @@ import { tsConfigs } from '../tsconfig';
 export async function constructMicrofrontend(name: string) {
   const path = fromRoot(`products\\microfrontends\\${name}`);
 
-  await removeDir(path);
-  await copyDir(microfrontendDir, path);
-  await constructBabelRc(path);
-  await constructReadme(path, name);
-  await constructProjectJson(path, name);
-  await constructNpmrc(path);
-  await constructWebpackLibrary(path, name);
+  // await removeDir(path);
+  // await copyDir(microfrontendDir, path);
+  // await constructBabelRc(path);
+  // await constructReadme(path, name);
+  // await constructProjectJson(path, name);
+  // await constructNpmrc(path);
+  await constructMicrofrontendWebpack(path, name);
   await constructMicrofrontendPackageJson(path, name);
-  await constructMicrofrontendTsConfig(path);
-  await installDeps(path);
-  await buildDeps(path);
+  // await constructMicrofrontendTsConfig(path);
+  // await installDeps(path);
+  // await buildDeps(path);
   // await bumpPackageVersion(path);
   // await publish(path);
 }
 
-export async function constructWebpackLibrary(path: string, name: string) {
+export async function constructMicrofrontendWebpack(
+  path: string,
+  name: string
+) {
   const base = {
     entry: Webpack.entries(path).indexReact,
     output: Webpack.outputs.lib(name),
@@ -53,7 +56,12 @@ export async function constructWebpackLibrary(path: string, name: string) {
   };
 
   const prod = { ...base, mode: 'production' };
-  const dev = { ...base, mode: 'development', ...Webpack.devServer(path) };
+  const dev = {
+    ...base,
+    mode: 'development',
+    ...Webpack.devServer(path),
+    entry: Webpack.entries(path).indexReactDemo,
+  };
 
   await writeToFile(
     `${path}\\webpack\\prod.webpack.config.ts`,

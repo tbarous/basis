@@ -4,7 +4,7 @@ export const licenses = { private: 'UNLICENSED' };
 
 export const scripts = {
   build: { build: 'webpack --config webpack/prod.webpack.config.ts' },
-  dev: { dev: 'webpack serve --config webpack/dev.ts' },
+  dev: { dev: 'webpack serve --config webpack/dev.webpack.config.ts' },
   unitTest: { 'test:unit': 'jest' },
 };
 

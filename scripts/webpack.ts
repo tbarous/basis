@@ -1,7 +1,9 @@
 import { jsTsReactRegex, nodeModulesRegex } from './common';
+
 export const entries = (path: string) => ({
   indexTypescript: `${path}/src/index.ts`,
   indexReact: `${path}/src/index.tsx`,
+  indexReactDemo: `${path}/src/demo.tsx`,
 });
 
 export const outputs = {
@@ -33,7 +35,7 @@ export const resolves = {
 };
 
 export const plugins = (path: string) => ({
-  htmlPlugin: `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',template: '${path}/src/index.ejs',filename: '${path}/public/index.html',publicPath: 'http://localhost:3000'})REMOVE`,
+  htmlPlugin: `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',templateContent: '<div id="root"></div>',filename: '${path}/public/index.html',publicPath: 'http://localhost:3000'})REMOVE`,
 });
 
 export const externals = {
