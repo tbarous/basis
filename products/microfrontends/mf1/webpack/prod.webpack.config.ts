@@ -1,1 +1,32 @@
-export default {"entry":"C:\\Users\\tasos\\Desktop\\basis\\products\\microfrontends\\mf1/src/index.tsx","output":{"globalObject":"this","filename":"index.js","library":{"name":"mf1","type":"umd"}},"module":{"rules":[{"test":/.(js|jsx|tsx|ts)$/,"exclude":/node_modules/,"loader":"babel-loader"}]},"plugins":["{\"userOptions\":{\"scriptLoading\":\"blocking\",\"inject\":\"body\",\"template\":\"C:\\\\Users\\\\tasos\\\\Desktop\\\\basis\\\\products\\\\microfrontends\\\\mf1\\u002Fsrc\\u002Findex.ejs\",\"filename\":\"C:\\\\Users\\\\tasos\\\\Desktop\\\\basis\\\\products\\\\microfrontends\\\\mf1\\u002Fpublic\\u002Findex.html\",\"publicPath\":\"http:\\u002F\\u002Flocalhost:3000\"},\"version\":5}"],"resolve":{"extensions":["*",".js",".jsx",".tsx",".ts"]},"mode":"production"}
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+export default {
+  entry:
+    'C:\\Users\\tasos\\Desktop\\basis\\products\\microfrontends\\mf1/src/index.tsx',
+  output: {
+    globalObject: 'this',
+    filename: 'index.js',
+    library: { name: 'mf1', type: 'umd' },
+  },
+  module: {
+    rules: [
+      {
+        test: /.(js|jsx|tsx|ts)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      scriptLoading: 'blocking',
+      inject: 'body',
+      template:
+        'C:\\Users\\tasos\\Desktop\\basis\\products\\microfrontends\\mf1/index.ejs',
+      filename:
+        'C:\\Users\\tasos\\Desktop\\basis\\products\\microfrontends\\mf1/public/index.html',
+      publicPath: 'http://localhost:3000',
+    }),
+  ],
+  resolve: { extensions: ['*', '.js', '.jsx', '.tsx', '.ts'] },
+  mode: 'production',
+};

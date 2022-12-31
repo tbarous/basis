@@ -37,8 +37,8 @@ export async function constructMicrofrontend(name: string) {
   await constructWebpackLibrary(path, name);
   await constructMicrofrontendPackageJson(path, name);
   await constructMicrofrontendTsConfig(path);
-  // await installDeps(path);
-  // await buildDeps(path);
+  await installDeps(path);
+  await buildDeps(path);
   // await bumpPackageVersion(path);
   // await publish(path);
 }
@@ -57,16 +57,24 @@ export async function constructWebpackLibrary(path: string, name: string) {
 
   await writeToFile(
     `${path}\\webpack\\prod.webpack.config.ts`,
-    `export default ${JSON.stringify(prod)
+    `import HtmlWebpackPlugin from 'html-webpack-plugin';export default ${JSON.stringify(
+      prod
+    )
       .replace(`"${jsTsReactRegex}"`, jsTsReactRegex)
-      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)}`
+      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)
+      .replace(`"REMOVE`, '')
+      .replace(`REMOVE"`, '')}`
   );
 
   await writeToFile(
     `${path}\\webpack\\dev.webpack.config.ts`,
-    `export default ${JSON.stringify(dev)
+    `import HtmlWebpackPlugin from 'html-webpack-plugin';export default ${JSON.stringify(
+      dev
+    )
       .replace(`"${jsTsReactRegex}"`, `${jsTsReactRegex}`)
-      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)}`
+      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)
+      .replace(`"REMOVE`, '')
+      .replace(`REMOVE"`, '')}`
   );
 }
 

@@ -1,8 +1,4 @@
 import { jsTsReactRegex, nodeModulesRegex } from './common';
-import serialize from 'serialize-javascript';
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 export const entries = (path: string) => ({
   indexTypescript: `${path}/src/index.ts`,
   indexReact: `${path}/src/index.tsx`,
@@ -37,13 +33,7 @@ export const resolves = {
 };
 
 export const plugins = (path: string) => ({
-  htmlPlugin: new HtmlWebpackPlugin({
-    scriptLoading: 'blocking',
-    inject: 'body',
-    template: `${path}/src/index.ejs`,
-    filename: `${path}/public/index.html`,
-    publicPath: 'http://localhost:3000',
-  }),
+  htmlPlugin: `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',template: '${path}/src/index.ejs',filename: '${path}/public/index.html',publicPath: 'http://localhost:3000'})REMOVE`,
 });
 
 export const externals = {
