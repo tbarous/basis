@@ -19,7 +19,7 @@ import { buildDeps, installDeps, publish } from '../commands';
 import { tsConfigs } from '../tsconfig';
 
 export async function constructLibrary(name: string) {
-  const path = fromRoot(`products\\libraries\\${name}`);
+  const path = fromRoot(`products/libraries/${name}`);
 
   await removeDir(path);
   await constructReadme(path, name);
@@ -46,12 +46,12 @@ export async function constructLibraryWebpack(path: string, name: string) {
   const dev = { ...base, mode: 'development' };
 
   await writeToFile(
-    `${path}\\webpack\\prod.webpack.config.ts`,
+    `${path}/webpack/prod.webpack.config.ts`,
     `export default ${JSON.stringify(prod)}`
   );
 
   await writeToFile(
-    `${path}\\webpack\\dev.webpack.config.ts`,
+    `${path}/webpack/dev.webpack.config.ts`,
     `export default ${JSON.stringify(dev)}`
   );
 }
@@ -78,9 +78,9 @@ export async function constructLibraryPackageJson(path: string, name: string) {
     },
   };
 
-  await writeJSONToFile(`${path}\\package.json`, base);
+  await writeJSONToFile(`${path}/package.json`, base);
 }
 
 export async function constructLibraryTsConfig(path: string) {
-  await writeJSONToFile(`${path}\\tsconfig.json`, tsConfigs.frontend);
+  await writeJSONToFile(`${path}/tsconfig.json`, tsConfigs.frontend);
 }

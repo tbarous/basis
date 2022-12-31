@@ -20,22 +20,22 @@ export interface IConstruct {
 abstract class Construct implements IConstruct {
   name: string;
   type: string;
-  readmeTemplate: string;
   baseProductPath: string;
 
   packageJson: PackageJson;
   babelrc: Babel = new Babel();
-  webpacks: {
-    prod: Webpack;
-    dev: Webpack;
+  webpacks: { prod: Webpack; dev: Webpack } = {
+    prod: new Webpack(this.paths.webpack.prod, ''),
+    dev: new Webpack(this.paths.webpack.prod, ''),
   };
   tsconfiguration: Tsconfig = new Tsconfig();
 
-  constructor(name: string) {
+  constructor(name: string, baseProductPath: string) {
+    this.baseProductPath = baseProductPath;
     this.name = name;
     this.packageJson = new PackageJson(this.name);
-    this.webpacks.prod = new Webpack(this.paths.webpack.prod, name);
-    this.webpacks.dev = new Webpack(this.paths.webpack.dev, name);
+    this.webpacks.prod = new Webpack(this.paths.product, name);
+    this.webpacks.dev = new Webpack(this.paths.product, name);
   }
 
   get paths() {
@@ -43,19 +43,20 @@ abstract class Construct implements IConstruct {
       __dirname,
       `../../${this.baseProductPath}/${this.name}`
     );
+
     return {
       product,
       blueprint: path.resolve(__dirname, `../../blueprints/${this.type}`),
       webpack: {
-        prod: `${product}\\webpack\\prod.webpack.config.ts`,
-        dev: `${product}\\webpack\\dev.webpack.config.ts`,
+        prod: `${product}/webpack/prod.webpack.config.ts`,
+        dev: `${product}/webpack/dev.webpack.config.ts`,
       },
-      readme: `${product}\\README.md`,
-      project: `${product}\\project.json`,
-      babelrc: `${product}\\.babelrc`,
-      npmrc: `${product}\\.npmrc`,
-      tsconfig: `${product}\\tsconfig.json`,
-      package: `${product}\\package.json`,
+      readme: `${product}/README.md`,
+      project: `${product}/project.json`,
+      babelrc: `${product}/.babelrc`,
+      npmrc: `${product}/.npmrc`,
+      tsconfig: `${product}/tsconfig.json`,
+      package: `${product}/package.json`,
     };
   }
 
@@ -117,7 +118,9 @@ abstract class Construct implements IConstruct {
   }
 
   // Create product package.json file
-  async createPackageJson() {}
+  async exportPackageJson() {
+    this.packageJson.export(this.paths.package);
+  }
 
   // Install dependencies on product
   async installDeps() {

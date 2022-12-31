@@ -2,7 +2,7 @@ import { writeJSONToFile } from '@tbarous/utils';
 
 class Tsconfig {
   compilerOptions = {};
-  'ts-node': any;
+  'ts-node': any = { compilerOptions: {} };
 
   addSourceMap() {
     this.compilerOptions['sourceMap'] = true;

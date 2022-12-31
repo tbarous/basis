@@ -1,0 +1,44 @@
+{
+  "scripts": {
+    "build": "webpack --config webpack/prod.webpack.config.ts",
+    "dev": "webpack serve --config webpack/dev.webpack.config.ts",
+    "unit": "jest"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "styled-components": "^5.3.6",
+    "mobx": "^6.7.0",
+    "mobx-react": "^7.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "@types/styled-components": "^5.1.26",
+    "babel-loader": "^9.1.0",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "typescript": "^4.9.4",
+    "@types/node": "^18.11.17",
+    "ts-node": "^10.9.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "@types/webpack": "^5.28.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack-dev-server": "^4.11.1",
+    "@types/webpack-dev-server": "^4.7.2"
+  },
+  "name": "mf2",
+  "packageName": "@tbarous/mf2",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/tbarous"
+  }
+}

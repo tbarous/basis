@@ -1,11 +1,11 @@
-import Babel from '../Babel';
-import Tsconfig from '../tsconfig';
-import Webpack from '../webpack';
 import Construct, { IConstruct } from './Construct';
 
 class MicrofrontendConstruct extends Construct implements IConstruct {
   type = 'microfrontend';
-  baseProductPath = 'products/microfrontends';
+
+  constructor(name: string) {
+    super(name, 'products/microfrontends');
+  }
 
   async createWebpack(): Promise<void> {
     this.webpacks.prod.setReactEntry();
@@ -29,7 +29,7 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
     this.exportBabelrc();
   }
 
-  async tsconfig(): Promise<void> {
+  async createTsconfig(): Promise<void> {
     this.tsconfiguration.addSourceMap();
     this.tsconfiguration.setNoImplicitAny();
     this.tsconfiguration.setES6Module();
@@ -48,46 +48,36 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
   }
 
   async createPackageJson(): Promise<void> {
-    const config = {
-      name: this.packageJson.names.github,
-      version: PackageJson.versions.start,
-      main: PackageJson.mains.distIndex,
-      files: PackageJson.files,
-      license: PackageJson.licenses.private,
-      publishConfig: PackageJson.publishConfigs.github,
-      scripts: {
-        ...PackageJson.scripts.build,
-        ...PackageJson.scripts.dev,
-        ...PackageJson.scripts.unitTest,
-      },
-      dependencies: {
-        ...PackageJson.dependencies.react,
-        ...PackageJson.dependencies.styledComponents,
-        ...PackageJson.dependencies.mobx,
-      },
-      devDependencies: {
-        ...PackageJson.devDependencies.babelReact,
-        ...PackageJson.devDependencies.typescript,
-        ...PackageJson.devDependencies.reactTypes,
-        ...PackageJson.devDependencies.styledComponentsTypes,
-        ...PackageJson.devDependencies.nodeTypes,
-        ...PackageJson.devDependencies.webpackReact,
-      },
-    };
-
-    await writeJSONToFile(this.packageJsonPath, config);
+    this.packageJson.setGithubName();
+    this.packageJson.setStartingVersion();
+    this.packageJson.setIndexMain();
+    this.packageJson.setCommonFiles();
+    this.packageJson.setPrivateLicense();
+    this.packageJson.setGithubRegistry();
+    this.packageJson.addBuildScript();
+    this.packageJson.addDevScript();
+    this.packageJson.addUnitTestScript();
+    this.packageJson.addReact();
+    this.packageJson.addStyledComponents();
+    this.packageJson.addMobx();
+    this.packageJson.addReactBabel();
+    this.packageJson.addTypescript();
+    this.packageJson.addNodeTypes();
+    this.packageJson.addReactWebpack();
+    this.exportPackageJson();
   }
 
   async create(): Promise<void> {
     await this.cleanup();
-    await this.copyBlueprint();
+    await this.blueprint();
     await this.createBabelrc();
-    await this.readme();
+    await this.exportReadme();
     await this.createPackageJson();
-    await this.projectJson();
-    await this.npmrc();
+    await this.exportProjectJson();
+    await this.exportNpmrc();
     await this.createWebpack();
-    await this.tsconfig();
+    await this.createTsconfig();
+    await this.build();
   }
 }
 
