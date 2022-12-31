@@ -17,7 +17,12 @@ import {
   writeToFile,
   writeJSONToFile,
 } from '@tbarous/utils';
-import { buildDeps, installDeps, publish } from '../commands';
+import {
+  buildDeps,
+  bumpPackageVersion,
+  installDeps,
+  publish,
+} from '../commands';
 import { tsConfigs } from '../tsconfig';
 
 export async function constructMicrofrontend(name: string) {
@@ -32,8 +37,9 @@ export async function constructMicrofrontend(name: string) {
   await constructWebpackLibrary(path, name);
   await constructMicrofrontendPackageJson(path, name);
   await constructMicrofrontendTsConfig(path);
-  // await installDeps(path);
-  // await buildDeps(path);
+  await installDeps(path);
+  await buildDeps(path);
+  // await bumpPackageVersion(path);
   // await publish(path);
 }
 
@@ -42,7 +48,7 @@ export async function constructWebpackLibrary(path: string, name: string) {
     entry: Webpack.entries(path).indexReact,
     output: Webpack.outputs.lib(name),
     module: Webpack.modules.ts,
-    // plugins: [Webpack.plugins(path).htmlPlugin],
+    plugins: [Webpack.plugins(path).htmlPlugin],
     resolve: Webpack.resolves.ts,
   };
 
@@ -60,7 +66,7 @@ export async function constructWebpackLibrary(path: string, name: string) {
     `${path}\\webpack\\dev.webpack.config.ts`,
     `export default ${JSON.stringify(dev)
       .replace(`"${jsTsReactRegex}"`, `${jsTsReactRegex}`)
-      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)}}`
+      .replace(`"${nodeModulesRegex}"`, nodeModulesRegex)}`
   );
 }
 

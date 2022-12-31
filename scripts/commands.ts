@@ -20,6 +20,23 @@ export async function installDeps(path: string) {
   }
 }
 
+export async function bumpPackageVersion(path: string) {
+  console.log('Bumping version...');
+
+  try {
+    const { stdout, stderr } = await run(`cd ${path} && npm version minor`);
+
+    if (stderr) {
+      console.log(`stderr: ${stderr}`);
+      return;
+    }
+
+    console.log(`stdout: ${stdout}`);
+  } catch (error) {
+    console.log(`error: ${error}`);
+  }
+}
+
 export async function buildDeps(path: string) {
   console.log('Building...');
 
