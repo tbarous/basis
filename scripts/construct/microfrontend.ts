@@ -37,8 +37,8 @@ export async function constructMicrofrontend(name: string) {
   await constructWebpackLibrary(path, name);
   await constructMicrofrontendPackageJson(path, name);
   await constructMicrofrontendTsConfig(path);
-  await installDeps(path);
-  await buildDeps(path);
+  // await installDeps(path);
+  // await buildDeps(path);
   // await bumpPackageVersion(path);
   // await publish(path);
 }
