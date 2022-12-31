@@ -1,75 +1,146 @@
-import { jsTsReactRegex, nodeModulesRegex } from './common';
+import { writeToFile } from '@tbarous/utils';
 
-export const entries = (path: string) => ({
-  indexTypescript: `${path}/src/index.ts`,
-  indexReact: `${path}/src/index.tsx`,
-  indexReactDemo: `${path}/src/demo.tsx`,
-});
+class Webpack {
+  path: string;
+  name: string;
+  mode: 'development' | 'production';
+  entry: any;
+  output: any;
+  module: any;
+  plugins: any = [];
+  resolve: any;
+  externals: any;
+  devServer = {};
 
-export const outputs = {
-  index: { filename: 'index.js' },
-  lib: (name: string) => ({
-    globalObject: 'this',
-    filename: 'index.js',
-    library: {
-      name,
-      type: 'umd',
-    },
-  }),
-};
+  static jsTsReactRegex = '/.(js|jsx|tsx|ts)$/';
+  static nodeModulesRegex = '/node_modules/';
 
-export const modules = {
-  ts: {
-    rules: [
-      {
-        test: jsTsReactRegex,
-        exclude: nodeModulesRegex,
-        loader: 'babel-loader',
+  constructor(path: string, name: string) {
+    this.path = path;
+    this.name = name;
+  }
+
+  setTypescriptEntry() {
+    this.entry = `${this.path}/src/index.ts`;
+  }
+
+  setReactEntry() {
+    this.entry = `${this.path}/src/index.tsx`;
+  }
+
+  setReactDemoEntry() {
+    this.entry = `${this.path}/src/demo.tsx`;
+  }
+
+  setIndexOutput() {
+    this.output = { filename: 'index.js' };
+  }
+
+  setLibraryOutput() {
+    this.output = {
+      globalObject: 'this',
+      filename: 'index.js',
+      library: {
+        name: this.name,
+        type: 'umd',
       },
-    ],
-  },
-};
+    };
+  }
 
-export const resolves = {
-  ts: { extensions: ['*', '.js', '.jsx', '.tsx', '.ts'] },
-};
+  importHtmlWebpackPlugin() {
+    this.setBefore("import HtmlWebpackPlugin from 'html-webpack-plugin'");
+  }
 
-export const plugins = (path: string) => ({
-  htmlPlugin: `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',templateContent: '<div id="root"></div>',filename: '${path}/public/index.html',publicPath: 'http://localhost:3000'})REMOVE`,
-});
+  setTsModulesParsing() {
+    this.module = {
+      rules: [
+        {
+          test: Webpack.jsTsReactRegex,
+          exclude: Webpack.nodeModulesRegex,
+          loader: 'babel-loader',
+        },
+      ],
+    };
+  }
 
-export const externals = {
-  externals: {
-    react: {
-      commonjs: 'react',
-      commonjs2: 'react',
-      amd: 'react',
-      root: 'React',
-    },
-  },
-};
+  addHtmlWebpackPlugin() {
+    this.plugins.push(
+      `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',templateContent: '<div id="root"></div>',filename: '${this.path}/public/index.html',publicPath: 'http://localhost:3000'})REMOVE`
+    );
+  }
 
-export const devServer = (path: string) => ({
-  devServer: {
-    static: [
-      {
-        directory: `${path}/dist`,
-        publicPath: '/dist',
-        watch: true,
+  setTsResolves() {
+    this.resolve = { extensions: ['.tsx', '.ts'] };
+  }
+
+  setProduction() {
+    this.mode = 'production';
+  }
+
+  setDevelopment() {
+    this.mode = 'development';
+  }
+
+  setReactAsExternal() {
+    this.externals = {
+      react: {
+        commonjs: 'react',
+        commonjs2: 'react',
+        amd: 'react',
+        root: 'React',
       },
-      {
-        directory: `${path}/public`,
-        watch: true,
-      },
-    ],
-    compress: true,
-    port: 3000,
-    hot: true,
-    open: true,
-  },
-});
+    };
+  }
 
-const modes = {
-  development: 'development',
-  production: 'production',
-};
+  addDevServer() {
+    this.devServer = {
+      devServer: {
+        static: [
+          {
+            directory: `${this.path}/dist`,
+            publicPath: '/dist',
+            watch: true,
+          },
+          {
+            directory: `${this.path}/public`,
+            watch: true,
+          },
+        ],
+        compress: true,
+        port: 3000,
+        hot: true,
+        open: true,
+      },
+    };
+  }
+
+  toString() {
+    return JSON.stringify(this);
+  }
+
+  setBefore(before: string) {
+    this.stringConfig = `${before}${this.stringConfig}`;
+  }
+
+  get stringConfig() {
+    return `export default ${this.toString()}`;
+  }
+
+  set stringConfig(stringConfig: string) {
+    this.stringConfig = stringConfig;
+  }
+
+  cleanupStringConfig() {
+    this.stringConfig = this.stringConfig
+      .replace(`"${Webpack.jsTsReactRegex}"`, Webpack.jsTsReactRegex)
+      .replace(`"${Webpack.nodeModulesRegex}"`, Webpack.nodeModulesRegex)
+      .replace(`"REMOVE`, '')
+      .replace(`REMOVE"`, '');
+  }
+
+  async export(path: string) {
+    await writeToFile(path, this.stringConfig);
+  }
+}
+
+export default Webpack;

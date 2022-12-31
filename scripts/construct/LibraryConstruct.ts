@@ -1,6 +1,12 @@
 import * as Webpack from '../webpack';
 import * as Package from '../package';
-import { fromRoot, npmrcPath } from './../common';
+import {
+  constructNpmrc,
+  constructProjectJson,
+  constructReadme,
+  fromRoot,
+  npmrcPath,
+} from './../common';
 import {
   copyDir,
   moveDir,
@@ -16,17 +22,19 @@ export async function constructLibrary(name: string) {
   const path = fromRoot(`products\\libraries\\${name}`);
 
   await removeDir(path);
+  await constructReadme(path, name);
+  await constructProjectJson(path, name);
+  await constructNpmrc(path);
   await copyDir(libraryDir, path);
-  await copyDir(npmrcPath, `${path}/.npmrc`);
-  await constructWebpackLibrary(path, name);
+  await constructLibraryWebpack(path, name);
   await constructLibraryPackageJson(path, name);
   await constructLibraryTsConfig(path);
   await installDeps(path);
   await buildDeps(path);
-  await publish(path);
+  // await publish(path);
 }
 
-export async function constructWebpackLibrary(path: string, name: string) {
+export async function constructLibraryWebpack(path: string, name: string) {
   const base = {
     entry: Webpack.entries(path).indexTypescript,
     output: Webpack.outputs.lib(name),

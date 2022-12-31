@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "blueprint": "ts-node ./scripts/blueprint.ts"
+    "g": "ts-node ./scripts/Generator.ts"
   },
   "repository": "git@github.com:tbarous/basis.git",
   "author": "Tasos Barous <tasosbarous@gmail.com>",

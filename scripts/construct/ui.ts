@@ -1,8 +1,8 @@
-import { presets } from './../babel';
+import { presets } from '../Babel';
 import * as Webpack from '../webpack';
 import * as Package from '../package';
 import {
-  microfrontendDir,
+  uiDir,
   npmrcPath,
   readmePath,
   babelRcPath,
@@ -25,28 +25,25 @@ import {
 } from '../commands';
 import { tsConfigs } from '../tsconfig';
 
-export async function constructMicrofrontend(name: string) {
-  const path = fromRoot(`products\\microfrontends\\${name}`);
+export async function constructUi(name: string) {
+  const path = fromRoot(`products\\Uis\\${name}`);
 
   // await removeDir(path);
-  // await copyDir(microfrontendDir, path);
+  // await copyDir(uiDir, path);
   // await constructBabelRc(path);
   // await constructReadme(path, name);
   // await constructProjectJson(path, name);
   // await constructNpmrc(path);
-  await constructMicrofrontendWebpack(path, name);
-  await constructMicrofrontendPackageJson(path, name);
-  // await constructMicrofrontendTsConfig(path);
+  await constructUiWebpack(path, name);
+  await constructUiPackageJson(path, name);
+  // await constructUiTsConfig(path);
   // await installDeps(path);
   // await buildDeps(path);
   // await bumpPackageVersion(path);
   // await publish(path);
 }
 
-export async function constructMicrofrontendWebpack(
-  path: string,
-  name: string
-) {
+export async function constructUiWebpack(path: string, name: string) {
   const base = {
     entry: Webpack.entries(path).indexReact,
     output: Webpack.outputs.lib(name),
@@ -111,10 +108,7 @@ export async function constructReadme(path: string, name: string) {
   await writeToFile(`${path}\\README.md`, `# ${name}`);
 }
 
-export async function constructMicrofrontendPackageJson(
-  path: string,
-  name: string
-) {
+export async function constructUiPackageJson(path: string, name: string) {
   const base = {
     name: `@tbarous/${name}`,
     version: '0.0.1',
@@ -130,7 +124,6 @@ export async function constructMicrofrontendPackageJson(
     dependencies: {
       ...Package.dependencies.react,
       ...Package.dependencies.styledComponents,
-      ...Package.dependencies.mobx,
     },
     devDependencies: {
       ...Package.devDependencies.babelReact,
@@ -145,6 +138,6 @@ export async function constructMicrofrontendPackageJson(
   await writeJSONToFile(`${path}\\package.json`, base);
 }
 
-export async function constructMicrofrontendTsConfig(path: string) {
+export async function constructUiTsConfig(path: string) {
   await writeJSONToFile(`${path}\\tsconfig.json`, tsConfigs.frontend);
 }
