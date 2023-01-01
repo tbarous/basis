@@ -16,6 +16,13 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
     this.webpacks.prod.setProduction();
     this.webpacks.prod.importHtmlWebpackPlugin();
     await this.exportWebpackProd();
+
+    this.webpacks.dev.setReactEntry();
+    this.webpacks.dev.setLibraryOutput();
+    this.webpacks.dev.setTsModulesParsing();
+    this.webpacks.dev.addHtmlWebpackPlugin();
+    this.webpacks.dev.setTsResolves();
+    this.webpacks.dev.importHtmlWebpackPlugin();
     this.webpacks.dev.setDevelopment();
     this.webpacks.dev.addDevServer();
     this.webpacks.dev.setReactDemoEntry();
@@ -58,6 +65,7 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
     this.packageJson.addDevScript();
     this.packageJson.addUnitTestScript();
     this.packageJson.addReact();
+    this.packageJson.addReactDom();
     this.packageJson.addStyledComponents();
     this.packageJson.addMobx();
     this.packageJson.addReactBabel();
@@ -68,17 +76,17 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
   }
 
   async create(): Promise<void> {
-    await this.cleanup();
-    await this.blueprint();
-    await this.createBabelrc();
-    await this.exportReadme();
-    await this.createPackageJson();
-    await this.exportProjectJson();
-    await this.exportNpmrc();
+    // await this.cleanup();
+    // await this.blueprint();
+    // await this.createBabelrc();
+    // await this.exportReadme();
+    // await this.createPackageJson();
+    // await this.exportProjectJson();
+    // await this.exportNpmrc();
     await this.createWebpack();
-    await this.createTsconfig();
-    await this.installDeps();
-    await this.build();
+    // await this.createTsconfig();
+    // await this.installDeps();
+    // await this.build();
   }
 }
 
