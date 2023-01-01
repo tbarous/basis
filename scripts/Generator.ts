@@ -1,3 +1,4 @@
+import LibraryConstruct from './construct/LibraryConstruct';
 import MicrofrontendConstruct from './construct/MicrofrontendConstruct';
 
 const [recipe, name]: any[] = process.argv.slice(2, 4);
@@ -33,6 +34,7 @@ class Generator {
   get mapping() {
     return {
       microfrontend: new MicrofrontendConstruct(name),
+      library: new LibraryConstruct(name),
     }[this.recipe];
   }
 

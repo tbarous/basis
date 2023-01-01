@@ -1,86 +1,81 @@
-import * as Webpack from '../webpack';
-import * as Package from '../package';
-import {
-  constructNpmrc,
-  constructProjectJson,
-  constructReadme,
-  fromRoot,
-  npmrcPath,
-} from './../common';
-import {
-  copyDir,
-  moveDir,
-  removeDir,
-  writeToFile,
-  writeJSONToFile,
-} from '@tbarous/utils';
-import { libraryDir } from '../common';
-import { buildDeps, installDeps, publish } from '../commands';
-import { tsConfigs } from '../tsconfig';
+import Construct, { IConstruct } from './Construct';
 
-export async function constructLibrary(name: string) {
-  const path = fromRoot(`products/libraries/${name}`);
+class LibraryConstruct extends Construct implements IConstruct {
+  type = 'library';
 
-  await removeDir(path);
-  await constructReadme(path, name);
-  await constructProjectJson(path, name);
-  await constructNpmrc(path);
-  await copyDir(libraryDir, path);
-  await constructLibraryWebpack(path, name);
-  await constructLibraryPackageJson(path, name);
-  await constructLibraryTsConfig(path);
-  await installDeps(path);
-  await buildDeps(path);
-  // await publish(path);
+  constructor(name: string) {
+    super(name, 'products/libraries');
+  }
+
+  async createWebpack(): Promise<void> {
+    this.webpacks.prod.setTypescriptEntry();
+    this.webpacks.prod.setLibraryOutput();
+    this.webpacks.prod.setTsModulesParsing();
+    this.webpacks.prod.setTsResolves();
+    this.webpacks.prod.setProduction();
+    await this.exportWebpackProd();
+
+    this.webpacks.dev.setTypescriptEntry();
+    this.webpacks.dev.setLibraryOutput();
+    this.webpacks.dev.setTsModulesParsing();
+    this.webpacks.dev.setTsResolves();
+    this.webpacks.dev.setDevelopment();
+    await this.exportWebpackDev();
+  }
+
+  async createBabelrc() {
+    this.babelrc.addTypescriptPreset();
+    this.babelrc.addEnvPreset();
+    this.exportBabelrc();
+  }
+
+  async createTsconfig(): Promise<void> {
+    this.tsconfiguration.addSourceMap();
+    this.tsconfiguration.setNoImplicitAny();
+    this.tsconfiguration.setES6Module();
+    this.tsconfiguration.setNoEmit();
+    this.tsconfiguration.setES5Target();
+    this.tsconfiguration.setAllowJs();
+    this.tsconfiguration.setNoAllowJs();
+    this.tsconfiguration.setNodeModuleResolution();
+    this.tsconfiguration.setEsModuleInterop();
+    this.tsconfiguration.setAllowSyntheticDefaultImports();
+    this.tsconfiguration.setDeclaration();
+    this.tsconfiguration.setOutDirDist();
+    this.tsconfiguration.setJsxReact();
+    this.tsconfiguration.setTsNodeCommonJsModule();
+    await this.exportTsconfig();
+  }
+
+  async createPackageJson(): Promise<void> {
+    this.packageJson.setGithubName();
+    this.packageJson.setStartingVersion();
+    this.packageJson.setIndexMain();
+    this.packageJson.setCommonFiles();
+    this.packageJson.setPrivateLicense();
+    this.packageJson.setGithubRegistry();
+    this.packageJson.addBuildScript();
+    this.packageJson.addUnitTestScript();
+    this.packageJson.addEssentialBabel();
+    this.packageJson.addEssentialWebpack();
+    this.packageJson.addTypescript();
+    this.packageJson.addNodeTypes();
+    this.exportPackageJson();
+  }
+
+  async create(): Promise<void> {
+    await this.cleanup();
+    await this.blueprint();
+    await this.createBabelrc();
+    await this.exportReadme();
+    await this.createPackageJson();
+    await this.exportProjectJson();
+    await this.exportNpmrc();
+    await this.createWebpack();
+    await this.createTsconfig();
+    await this.installDeps();
+    await this.build();
+  }
 }
 
-export async function constructLibraryWebpack(path: string, name: string) {
-  const base = {
-    entry: Webpack.entries(path).indexTypescript,
-    output: Webpack.outputs.lib(name),
-    module: Webpack.modules.ts,
-    resolve: Webpack.resolves.ts,
-  };
-
-  const prod = { ...base, mode: 'production' };
-  const dev = { ...base, mode: 'development' };
-
-  await writeToFile(
-    `${path}/webpack/prod.webpack.config.ts`,
-    `export default ${JSON.stringify(prod)}`
-  );
-
-  await writeToFile(
-    `${path}/webpack/dev.webpack.config.ts`,
-    `export default ${JSON.stringify(dev)}`
-  );
-}
-
-export async function constructLibraryPackageJson(path: string, name: string) {
-  const base = {
-    name: `@tbarous/${name}`,
-    version: '0.0.1',
-    main: Package.mains.distIndex,
-    files: Package.files,
-    license: Package.licenses.private,
-    publishConfig: Package.publishConfig,
-    scripts: {
-      ...Package.scripts.build,
-      ...Package.scripts.unitTest,
-    },
-    dependencies: {},
-    devDependencies: {
-      ...Package.devDependencies.babelEssentials,
-      ...Package.devDependencies.typescript,
-      ...Package.devDependencies.nodeTypes,
-      ...Package.devDependencies.webpackEssentials,
-      ...Package.devDependencies.jest,
-    },
-  };
-
-  await writeJSONToFile(`${path}/package.json`, base);
-}
-
-export async function constructLibraryTsConfig(path: string) {
-  await writeJSONToFile(`${path}/tsconfig.json`, tsConfigs.frontend);
-}
+export default LibraryConstruct;

@@ -76,17 +76,17 @@ class MicrofrontendConstruct extends Construct implements IConstruct {
   }
 
   async create(): Promise<void> {
-    // await this.cleanup();
-    // await this.blueprint();
-    // await this.createBabelrc();
-    // await this.exportReadme();
-    // await this.createPackageJson();
-    // await this.exportProjectJson();
-    // await this.exportNpmrc();
+    await this.cleanup();
+    await this.blueprint();
+    await this.createBabelrc();
+    await this.exportReadme();
+    await this.createPackageJson();
+    await this.exportProjectJson();
+    await this.exportNpmrc();
     await this.createWebpack();
-    // await this.createTsconfig();
-    // await this.installDeps();
-    // await this.build();
+    await this.createTsconfig();
+    await this.installDeps();
+    await this.build();
   }
 }
 

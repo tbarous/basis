@@ -2,17 +2,17 @@ import { writeToFile } from '@tbarous/utils';
 import { off } from 'process';
 
 class Webpack {
-  path: string;
-  name: string;
-  before: string;
-  mode: 'development' | 'production';
-  entry: any;
-  output: any = {};
-  module: any = {};
-  plugins: any = [];
-  resolve: any;
-  externals: any;
-  devServer: any;
+  private path: string;
+  private name: string;
+  private before: string;
+  private mode: 'development' | 'production';
+  private entry: any;
+  private output: any = {};
+  private module: any = {};
+  private plugins: any = [];
+  private resolve: any;
+  private externals: any;
+  private devServer: any;
 
   static jsTsReactRegex = '/.(js|jsx|tsx|ts)$/';
   static nodeModulesRegex = '/node_modules/';
