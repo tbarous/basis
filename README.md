@@ -1,11 +1,9 @@
 # A basis for configurations and start scripts
 
-Hierarchy:
+HOW TO USE:
 
-1. app -> Created using vite.
+To create a library:
+yarn g library "library name"
 
-2. ui -> Always has to do with react components that have UI! Not just hooks!
-
-- apps are UI composed of microfrontends
-- microfrontends are isolated UIs
-- libraries do not have UI
+To create a microfrontend:
+yarn g microfrontend "microfrontend name"
