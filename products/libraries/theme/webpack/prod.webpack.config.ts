@@ -1,1 +1,0 @@
-export default {"entry":"C:\\Users\\tasos\\Desktop\\basis\\products\\libraries\\theme/src/index.ts","output":{"globalObject":"this","filename":"index.js","library":{"name":"theme","type":"umd"}},"module":{"rules":[{"test":"/.(js|jsx|tsx|ts)$/","exclude":"/node_modules/","loader":"babel-loader"}]},"resolve":{"extensions":["*",".js",".jsx",".tsx",".ts"]},"mode":"production"}

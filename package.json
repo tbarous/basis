@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "g": "ts-node ./scripts/Generator.ts",
-    "p": "TODO" //TODO publish a package by name, e.g. yarn p libraries/lib132 --patch
+    "p": "TODO"
   },
   "repository": "git@github.com:tbarous/basis.git",
   "author": "Tasos Barous <tasosbarous@gmail.com>",
