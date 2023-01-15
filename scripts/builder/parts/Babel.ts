@@ -3,6 +3,7 @@ import File from '../../File';
 
 class Babel implements IPart {
   presets = [];
+  filename = '.babelrc';
 
   addReactPreset(): Babel {
     this.presets.push('@babel/react');
@@ -19,8 +20,19 @@ class Babel implements IPart {
     return this;
   }
 
+  setFilename(filename: string) {
+    this.filename = filename;
+    return this;
+  }
+
+  toJson() {
+    return {
+      presets: this.presets,
+    };
+  }
+
   toString() {
-    return JSON.stringify(this);
+    return JSON.stringify(this.toJson());
   }
 
   async export(target: string) {

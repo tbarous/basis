@@ -1,0 +1,1 @@
+module.exports = {"mode":"production","entry":"src/index.ts","output":{"globalObject":"this","filename":"index.js","library":{"name":"test","type":"umd"}},"module":{"rules":[{"test":/.(js|jsx|tsx|ts)$/,"exclude":/node_modules/,"loader":"babel-loader"}]},"plugins":[],"resolve":{"extensions":["*",".js",".jsx",".tsx",".ts"]}}

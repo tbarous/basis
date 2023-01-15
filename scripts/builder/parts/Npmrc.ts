@@ -7,6 +7,7 @@ class Npmrc implements IPart {
   token: string;
   username: string;
   url: string;
+  filename = '.npmrc';
 
   setRegistry(registry: string): Npmrc {
     this.registry = registry;
@@ -26,6 +27,20 @@ class Npmrc implements IPart {
   setUrl(url: string): Npmrc {
     this.url = url;
     return this;
+  }
+
+  setFilename(filename: string) {
+    this.filename = filename;
+    return this;
+  }
+
+  toJson() {
+    return {
+      registry: this.registry,
+      token: this.token,
+      username: this.username,
+      url: this.url,
+    };
   }
 
   toString() {

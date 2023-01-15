@@ -17,7 +17,9 @@ class LibraryBuilder implements IBuilder {
   }
 
   public produceReadme() {
-    this.product.parts.push(new Readme().setTitle('Library'));
+    this.product.parts.push(
+      new Readme().setTitle(this.product.name.toUpperCase())
+    );
   }
 
   public produceProject() {
@@ -80,6 +82,7 @@ class LibraryBuilder implements IBuilder {
   async produceWebpack() {
     this.product.parts.push(
       new Webpack()
+        .setFilename('prod.webpack.config.ts')
         .setName(this.product.name)
         .setTypescriptEntry()
         .setLibraryOutput()
@@ -90,6 +93,7 @@ class LibraryBuilder implements IBuilder {
 
     this.product.parts.push(
       new Webpack()
+        .setFilename('dev.webpack.config.ts')
         .setName(this.product.name)
         .setTypescriptEntry()
         .setLibraryOutput()

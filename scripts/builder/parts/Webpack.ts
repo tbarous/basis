@@ -3,8 +3,10 @@ import File from '../../File';
 import { chainable } from '../../Decorators';
 
 class Webpack {
+  filename = 'webpack.config.js';
+
   private name: string;
-  private before: string;
+  private before: string = 'module.exports = ';
   private mode: 'development' | 'production';
   private entry: any;
   private output: any = {};
@@ -132,7 +134,7 @@ class Webpack {
     return this;
   }
 
-  toString() {
+  toJson() {
     const result: any = {
       mode: this.mode,
       entry: this.entry,
@@ -150,11 +152,23 @@ class Webpack {
       result.externals = this.externals;
     }
 
-    return JSON.stringify(result)
-      .replace(`"${Webpack.jsTsReactRegex}"`, Webpack.jsTsReactRegex)
-      .replace(`"${Webpack.nodeModulesRegex}"`, Webpack.nodeModulesRegex)
-      .replace(`"REMOVE`, '')
-      .replace(`REMOVE"`, '');
+    return result;
+  }
+
+  toString() {
+    return (
+      this.before +
+      JSON.stringify(this.toJson())
+        .replace(`"${Webpack.jsTsReactRegex}"`, Webpack.jsTsReactRegex)
+        .replace(`"${Webpack.nodeModulesRegex}"`, Webpack.nodeModulesRegex)
+        .replace(`"REMOVE`, '')
+        .replace(`REMOVE"`, '')
+    );
+  }
+
+  setFilename(filename: string) {
+    this.filename = filename;
+    return this;
   }
 
   async export(target: string) {

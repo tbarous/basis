@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "g": "ts-node ./scripts/Generator.ts",
+    "g": "ts-node ./scripts/builder/index.ts",
     "p": "TODO"
   },
   "repository": "git@github.com:tbarous/basis.git",

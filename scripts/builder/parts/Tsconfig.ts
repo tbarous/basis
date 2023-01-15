@@ -3,6 +3,7 @@ import File from '../../File';
 class Tsconfig {
   compilerOptions = {};
   'ts-node': any = { compilerOptions: {} };
+  filename = 'tsconfig.json';
 
   addSourceMap(): Tsconfig {
     this.compilerOptions['sourceMap'] = true;
@@ -74,12 +75,24 @@ class Tsconfig {
     return this;
   }
 
+  setFilename(filename: string) {
+    this.filename = filename;
+    return this;
+  }
+
+  toJson() {
+    return {
+      compilerOptions: this.compilerOptions,
+      'ts-node': this['ts-node'],
+    };
+  }
+
   toString() {
-    return JSON.stringify(this);
+    return JSON.stringify(this.toJson());
   }
 
   async export(target: string) {
-    await File.createJson(target, this);
+    await File.createJson(target, this.toJson());
   }
 }
 

@@ -2,14 +2,26 @@ import File from '../../File';
 
 class Readme {
   title: string = '';
+  filename = 'README.md';
 
   setTitle(title: string): Readme {
     this.title = title;
     return this;
   }
 
+  setFilename(filename: string) {
+    this.filename = filename;
+    return this;
+  }
+
+  toJson() {
+    return {
+      name: this.title,
+    };
+  }
+
   toString() {
-    return JSON.stringify(this);
+    return `# ${this.title}`;
   }
 
   async export(target: string) {

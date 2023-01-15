@@ -3,6 +3,8 @@ import File from '../../File';
 import { chainable } from '../../Decorators';
 
 class Package {
+  filename = 'package.json';
+
   private name: string;
   private packageName: string;
   private version: string;
@@ -142,12 +144,31 @@ class Package {
     return this;
   }
 
+  setFilename(filename: string) {
+    this.filename = filename;
+    return this;
+  }
+
+  toJson() {
+    return {
+      name: this.name,
+      version: this.version,
+      license: this.license,
+      scripts: this.scripts,
+      main: this.main,
+      files: this.files,
+      publishConfig: this.publishConfig,
+      dependencies: this.dependencies,
+      devDependencies: this.devDependencies,
+    };
+  }
+
   toString() {
-    return JSON.stringify(this);
+    return JSON.stringify(this.toJson());
   }
 
   async export(target: string) {
-    await File.createJson(target, this);
+    await File.createJson(target, this.toJson());
   }
 }
 
