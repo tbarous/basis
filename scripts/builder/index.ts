@@ -1,20 +1,41 @@
 import LibraryBuilder from './builders/LibraryBuilder';
 import Director from './Director';
-import path from 'path';
+import Commands from './Commands';
+import MicrofrontendBuilder from './builders/MicrofrontendBuilder';
+
+// maybe use visitor pattern
 
 const [recipe, name]: any[] = process.argv.slice(2, 4);
+const libraryBuilder = new LibraryBuilder(name);
+const microfrontendBuilder = new MicrofrontendBuilder(name);
+
+const builder = {
+  lib: libraryBuilder,
+  micro: microfrontendBuilder,
+}[recipe];
 
 const director = new Director();
-director.setBuilder(new LibraryBuilder('test'));
-director.produceLibrary();
-console.log(director.getBuilder().getProduct().listParts());
+const commands = new Commands(
+  builder.getProduct().source,
+  builder.getProduct().target
+);
 
-director
-  .getBuilder()
-  .getProduct()
-  .listParts()
-  .map((part) => {
-    part.export(
-      path.resolve(__dirname, `../../libraries/${name}/${part.filename}`)
-    );
-  });
+(async () => {
+  await commands.cleanup();
+  await commands.blueprint();
+
+  const parts = director
+    .setBuilder(builder)
+    .produceLibrary()
+    .getBuilder()
+    .getProduct()
+    .listParts();
+
+  parts.map(
+    async (part) =>
+      await part.export(builder.getProduct().target + '/' + part.filename)
+  );
+
+  await commands.installDeps();
+  await commands.build();
+})();

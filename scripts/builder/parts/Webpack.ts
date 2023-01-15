@@ -1,6 +1,5 @@
 import IPart from './IPart';
-import File from '../../File';
-import { chainable } from '../../Decorators';
+import File from '../File';
 
 class Webpack {
   filename = 'webpack.config.js';
@@ -25,17 +24,17 @@ class Webpack {
   }
 
   setTypescriptEntry(): Webpack {
-    this.entry = `src/index.ts`;
+    this.entry = `./src/index.ts`;
     return this;
   }
 
   setReactEntry(): Webpack {
-    this.entry = `src/index.tsx`;
+    this.entry = `./src/index.tsx`;
     return this;
   }
 
   setReactDemoEntry(): Webpack {
-    this.entry = `src/demo.tsx`;
+    this.entry = `./src/demo.tsx`;
     return this;
   }
 
@@ -57,7 +56,12 @@ class Webpack {
   }
 
   importHtmlWebpackPlugin(): Webpack {
-    this.setBefore("import HtmlWebpackPlugin from 'html-webpack-plugin'");
+    this.addBefore("import HtmlWebpackPlugin from 'html-webpack-plugin';");
+    return this;
+  }
+
+  addBefore(string: string): Webpack {
+    this.setBefore(string + this.before);
     return this;
   }
 
@@ -76,7 +80,7 @@ class Webpack {
 
   addHtmlWebpackPlugin(): Webpack {
     this.plugins.push(
-      `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',templateContent: '<div id="root"></div>',filename: 'public/index.html',publicPath: 'http://localhost:3000'})REMOVE`
+      `REMOVEnew HtmlWebpackPlugin({scriptLoading: 'blocking',inject: 'body',templateContent: '<div id="root"></div>',filename: './public/index.html',publicPath: 'http://localhost:3000'})REMOVE`
     );
     return this;
   }

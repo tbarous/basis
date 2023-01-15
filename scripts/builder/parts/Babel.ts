@@ -1,5 +1,5 @@
 import IPart from './IPart';
-import File from '../../File';
+import File from '../File';
 
 class Babel implements IPart {
   presets = [];

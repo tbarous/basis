@@ -1,6 +1,5 @@
 import IPart from './IPart';
-import File from '../../File';
-import { chainable } from '../../Decorators';
+import File from '../File';
 
 class Npmrc implements IPart {
   registry: string;

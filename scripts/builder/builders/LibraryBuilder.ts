@@ -20,10 +20,12 @@ class LibraryBuilder implements IBuilder {
     this.product.parts.push(
       new Readme().setTitle(this.product.name.toUpperCase())
     );
+    return this;
   }
 
   public produceProject() {
     this.product.parts.push(new Project().setName(this.product.name));
+    return this;
   }
 
   public produceNpmrc() {
@@ -34,6 +36,7 @@ class LibraryBuilder implements IBuilder {
         .setUrl('https://npm.pkg.github.com')
         .setUsername('@tbarous')
     );
+    return this;
   }
 
   public produceTsconfig() {
@@ -54,6 +57,7 @@ class LibraryBuilder implements IBuilder {
         .setJsxReact()
         .setTsNodeCommonJsModule()
     );
+    return this;
   }
 
   public producePackage() {
@@ -73,13 +77,15 @@ class LibraryBuilder implements IBuilder {
         .addTypescript()
         .addNodeTypes()
     );
+    return this;
   }
 
   public produceBabel() {
     this.product.parts.push(new Babel().addTypescriptPreset().addEnvPreset());
+    return this;
   }
 
-  async produceWebpack() {
+  public produceWebpack() {
     this.product.parts.push(
       new Webpack()
         .setFilename('prod.webpack.config.ts')
@@ -101,6 +107,8 @@ class LibraryBuilder implements IBuilder {
         .setTsResolves()
         .setDevelopment()
     );
+
+    return this;
   }
 
   getProduct(): IProduct {

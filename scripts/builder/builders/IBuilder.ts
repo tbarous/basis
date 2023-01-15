@@ -1,13 +1,13 @@
-import IProduct from "../products/IProduct";
+import IProduct from '../products/IProduct';
 
 interface IBuilder {
-  produceReadme: () => void;
-  produceProject: () => void;
-  produceWebpack: () => void;
-  produceNpmrc: () => void;
-  produceBabel: () => void;
-  produceTsconfig: () => void;
-  producePackage: () => void;
+  produceReadme: () => IBuilder;
+  produceProject: () => IBuilder;
+  produceWebpack: () => IBuilder;
+  produceNpmrc: () => IBuilder;
+  produceBabel: () => IBuilder;
+  produceTsconfig: () => IBuilder;
+  producePackage: () => IBuilder;
   getProduct: () => IProduct;
 }
 

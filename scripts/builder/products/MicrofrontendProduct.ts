@@ -2,13 +2,13 @@ import path from 'path';
 import IProduct from './IProduct';
 import IPart from '../parts/IPart';
 
-class LibraryProduct implements IProduct {
+class MicrofrontendProduct implements IProduct {
   public name: string;
   public source: string = path.resolve(
     __dirname,
-    `../../../blueprints/library`
+    `../../../blueprints/microfrontend`
   );
-  public type: string = 'library';
+  public type: string = 'microfrontend';
   public parts: IPart[] = [];
 
   constructor(name: string) {
@@ -16,7 +16,7 @@ class LibraryProduct implements IProduct {
   }
 
   get target() {
-    return path.resolve(__dirname, `../../../libraries/${this.name}`);
+    return path.resolve(__dirname, `../../../microfrontends/${this.name}`);
   }
 
   listParts() {
@@ -24,4 +24,4 @@ class LibraryProduct implements IProduct {
   }
 }
 
-export default LibraryProduct;
+export default MicrofrontendProduct;

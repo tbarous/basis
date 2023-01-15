@@ -5,6 +5,7 @@ class Director {
 
   public setBuilder(builder: IBuilder) {
     this.builder = builder;
+    return this;
   }
 
   getBuilder(): IBuilder {
@@ -12,13 +13,16 @@ class Director {
   }
 
   public produceLibrary() {
-    this.builder.produceBabel();
-    this.builder.produceReadme();
-    this.builder.producePackage();
-    this.builder.produceProject();
-    this.builder.produceNpmrc();
-    this.builder.produceWebpack();
-    this.builder.produceTsconfig();
+    this.builder
+      .produceBabel()
+      .produceReadme()
+      .producePackage()
+      .produceProject()
+      .produceNpmrc()
+      .produceWebpack()
+      .produceTsconfig();
+
+    return this;
   }
 }
 

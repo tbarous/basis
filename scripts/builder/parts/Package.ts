@@ -1,6 +1,5 @@
 import IPart from './IPart';
-import File from '../../File';
-import { chainable } from '../../Decorators';
+import File from '../File';
 
 class Package {
   filename = 'package.json';
@@ -37,13 +36,12 @@ class Package {
   }
 
   addBuildScript(): Package {
-    this.scripts['build'] = 'webpack --config webpack/prod.webpack.config.ts';
+    this.scripts['build'] = 'webpack --config prod.webpack.config.ts';
     return this;
   }
 
   addDevScript(): Package {
-    this.scripts['dev'] =
-      'webpack serve --config webpack/dev.webpack.config.ts';
+    this.scripts['dev'] = 'webpack serve --config dev.webpack.config.ts';
     return this;
   }
 

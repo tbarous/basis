@@ -5,6 +5,7 @@ interface IProduct {
   source: string;
   type: string;
   parts: IPart[];
+  target: string;
   listParts: () => IPart[];
 }
 
